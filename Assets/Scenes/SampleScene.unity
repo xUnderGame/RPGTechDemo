@@ -187,7 +187,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -512,8 +512,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensibility: 18
-  playerSpeed: 120
-  cameraFov: 60
+  playerSpeed: 1
+  cameraFov: 90
   walkingVelocityCap: 4
   fallingVelocityCap: 5
 --- !u!1001 &1171885268

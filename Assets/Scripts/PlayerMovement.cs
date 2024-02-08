@@ -56,5 +56,24 @@ public class PlayerController : MonoBehaviour
     private void OnMove(InputValue ctx) { playerMovement = ctx.Get<Vector2>(); }
 
     // Dance
-    private void OnDance() { animator.SetBool("Dance", true); }
+    private void OnDance()
+    {
+        if (animator.GetBool("Jump")) return;
+        animator.SetBool("Dance", !animator.GetBool("Dance"));
+    }
+
+    // Backflip
+    private void OnBackflip()
+    {
+        if (animator.GetBool("Jump")) return;
+        animator.SetBool("Backflip", !animator.GetBool("Backflip"));
+    }
+
+    // Jump
+    private void OnJump()
+    {
+        animator.SetBool("Jump", !animator.GetBool("Jump"));
+        animator.SetBool("Dance", false);
+        animator.SetBool("Backflip", false);
+    }
 }
