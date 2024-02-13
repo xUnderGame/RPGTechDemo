@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float walkingVelocityCap = 4f;
     public float fallingVelocityCap = 5f;
 
+    private bool isRunning = false;
     private Animator animator;
     private Vector2 cameraMovement;
     private Vector2 playerMovement;
@@ -25,6 +26,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerMovement == Vector2.zero)
+        {
+            animator.SetBool("Walking", false);
+            isRunning = false;
+        }
+        else { animator.SetBool("Walking", true); }
+
+        animator.SetBool("Running", isRunning);
         UpdateLookingPosition();
     }
 
@@ -45,6 +54,7 @@ public class PlayerController : MonoBehaviour
     // Moves the player
     private void MovePlayer()
     {
+        Debug.Log(playerSpeed);
         transform.Translate(playerMovement.y * playerSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * playerSpeed * Vector3.right);
     }
@@ -54,6 +64,9 @@ public class PlayerController : MonoBehaviour
 
     // Get the player's movement input
     private void OnMove(InputValue ctx) { playerMovement = ctx.Get<Vector2>(); }
+
+    // Is the player running?
+    private void OnRun() { isRunning = !isRunning; }
 
     // Dance
     private void OnDance()

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aa57e152f080c4246825f4477e40e612
+guid: 26080efeae3192941a0bd4424e15b36c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Backflip
+      name: Swing Dance
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 65
+      lastFrame: 314
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

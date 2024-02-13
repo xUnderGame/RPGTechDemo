@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensibility: 18
-  playerSpeed: 1
+  playerSpeed: 0.15
   cameraFov: 90
   walkingVelocityCap: 4
   fallingVelocityCap: 5
