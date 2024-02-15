@@ -24,9 +24,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "ccda5a7f-1114-40cc-bb7e-463513ad1493",
+                    "id": "da35e846-c295-4e01-ba16-149ebbcf1023",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "3b0fcef8-f022-4afd-954f-69ba11ce3001",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "934ab06f-21e9-47cf-88ac-7ede33526b45",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -51,27 +69,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "Fire",
                     "type": "Button",
-                    "id": "da35e846-c295-4e01-ba16-149ebbcf1023",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "3b0fcef8-f022-4afd-954f-69ba11ce3001",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Crouch",
-                    "type": "Button",
-                    "id": "934ab06f-21e9-47cf-88ac-7ede33526b45",
+                    "id": "ccda5a7f-1114-40cc-bb7e-463513ad1493",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -246,11 +246,44 @@
                 },
                 {
                     "name": "",
+                    "id": "7504f412-ec74-4e77-abe8-0e3193ea2826",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90472c75-7231-4af8-b99b-121a0c643391",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a5068ba-c4ce-4a65-ab82-35117155ac69",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": "Gamepad",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -261,7 +294,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -272,7 +305,7 @@
                     "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Touch",
+                    "groups": "Touch",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -301,28 +334,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e2d6c306-68d4-4a77-8c30-026f92eb2459",
-                    "path": "<Keyboard>/#(G)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dance",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7504f412-ec74-4e77-abe8-0e3193ea2826",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4d1c0e30-854d-4b45-897c-ab312c9d32e2",
                     "path": "<Keyboard>/b",
                     "interactions": "",
@@ -334,23 +345,12 @@
                 },
                 {
                     "name": "",
-                    "id": "90472c75-7231-4af8-b99b-121a0c643391",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "e2d6c306-68d4-4a77-8c30-026f92eb2459",
+                    "path": "<Keyboard>/#(G)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8a5068ba-c4ce-4a65-ab82-35117155ac69",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
+                    "action": "Dance",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

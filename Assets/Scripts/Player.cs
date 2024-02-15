@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
         UpdateLookingPosition();
     }
 
-
     // Physics simulations on FixedUpdate
     void FixedUpdate()
     {
@@ -76,10 +75,10 @@ public class PlayerController : MonoBehaviour
     private void OnMove(InputValue ctx) { playerMovement = ctx.Get<Vector2>(); }
 
     // Toggle player run
-    private void OnRun() { isRunning = !isRunning; }
+    private void OnRun() { isRunning = !isRunning; if (isCrouching && isRunning) ToggleCrouch(false); }
 
     // Toggle crouch
-    private void OnCrouch() { isCrouching = !isCrouching; }
+    private void OnCrouch() { isCrouching = !isCrouching; ToggleCrouch(isCrouching); }
 
     // Dance
     private void OnDance()
@@ -98,8 +97,22 @@ public class PlayerController : MonoBehaviour
     // Jump
     private void OnJump()
     {
+        // Uncrouch
+        ToggleCrouch(false);
+
+        // Start the jump
         animator.Play("Jump Start");
+        
+        // Disable other animations if playing
         animator.SetBool("Dance", false);
         animator.SetBool("Backflip", false);
+    }
+
+
+    // Toggles animator and crouching variable
+    private void ToggleCrouch(bool toggle)
+    {
+        animator.SetBool("Crouching", toggle);
+        isCrouching = toggle;
     }
 }
