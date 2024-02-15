@@ -1,16 +1,16 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public float sensibility = 18f;
-    public float playerSpeed = 120f;
+    public float baseSpeed = 0.2f;
     public float cameraFov = 60f;
     public float walkingVelocityCap = 4f;
     public float fallingVelocityCap = 5f;
 
     private bool isRunning = false;
+    private float currentSpeed = 0f;
     private Animator animator;
     private Vector2 cameraMovement;
     private Vector2 playerMovement;
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Walking and running animations.
         if (playerMovement == Vector2.zero)
         {
             animator.SetBool("Walking", false);
@@ -33,7 +34,12 @@ public class PlayerController : MonoBehaviour
         }
         else { animator.SetBool("Walking", true); }
 
+        // Running checks and animations.
+        if (isRunning) currentSpeed = baseSpeed * 1.5f;
+        else currentSpeed = baseSpeed;
         animator.SetBool("Running", isRunning);
+
+        // Updates camera position
         UpdateLookingPosition();
     }
 
@@ -54,9 +60,8 @@ public class PlayerController : MonoBehaviour
     // Moves the player
     private void MovePlayer()
     {
-        Debug.Log(playerSpeed);
-        transform.Translate(playerMovement.y * playerSpeed * Vector3.forward);
-        transform.Translate(playerMovement.x * playerSpeed * Vector3.right);
+        transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
+        transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
 
     // Get the player's camera input
