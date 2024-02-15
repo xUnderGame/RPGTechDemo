@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float fallingVelocityCap = 5f;
 
     private bool isRunning = false;
+    private bool isCrouching = false;
     private float currentSpeed = 0f;
     private Animator animator;
     private Vector2 cameraMovement;
@@ -38,6 +39,10 @@ public class PlayerController : MonoBehaviour
         if (isRunning) currentSpeed = baseSpeed * 1.5f;
         else currentSpeed = baseSpeed;
         animator.SetBool("Running", isRunning);
+
+        // Crouching checks and animations
+        if (isCrouching) animator.SetLayerWeight(1, 1);
+        else animator.SetLayerWeight(1, 0);
 
         // Updates camera position
         UpdateLookingPosition();
@@ -70,8 +75,11 @@ public class PlayerController : MonoBehaviour
     // Get the player's movement input
     private void OnMove(InputValue ctx) { playerMovement = ctx.Get<Vector2>(); }
 
-    // Is the player running?
+    // Toggle player run
     private void OnRun() { isRunning = !isRunning; }
+
+    // Toggle crouch
+    private void OnCrouch() { isCrouching = !isCrouching; }
 
     // Dance
     private void OnDance()
@@ -90,7 +98,7 @@ public class PlayerController : MonoBehaviour
     // Jump
     private void OnJump()
     {
-        animator.SetBool("Jump", !animator.GetBool("Jump"));
+        animator.Play("Jump Start");
         animator.SetBool("Dance", false);
         animator.SetBool("Backflip", false);
     }
