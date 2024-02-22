@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,20 +9,35 @@ public class PlayerController : MonoBehaviour
     public float cameraFov = 60f;
     public float walkingVelocityCap = 4f;
     public float fallingVelocityCap = 5f;
+    public float jumpForce = 65f;
 
     private bool isRunning = false;
     private bool isCrouching = false;
+    private bool isGrounded;
     private float currentSpeed = 0f;
     private Animator animator;
+    private Rigidbody rb;
     private Vector2 cameraMovement;
     private Vector2 playerMovement;
+    private Camera thirdPersonCamera;
+    private Camera firstPersonCamera;
+    private Canvas playerReticule;
+    private readonly List<float> maxVerticalAngles = new() {1f, 2f};
 
     // Setting player stuff up
     void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Camera.main.fieldOfView = cameraFov;
+        // Get components
         animator = transform.GetChild(0).GetComponent<Animator>();
+        thirdPersonCamera = transform.Find("Cameras").Find("Third-Person View").GetComponent<Camera>();
+        firstPersonCamera = transform.Find("Cameras").Find("First-Person View").GetComponent<Camera>();
+        playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
+        rb = GetComponent<Rigidbody>();
+
+        // Set game stuff up
+        Cursor.lockState = CursorLockMode.Locked;
+        thirdPersonCamera.fieldOfView = cameraFov;
+        firstPersonCamera.fieldOfView = cameraFov;
     }
 
     // Update is called once per frame
@@ -44,8 +60,8 @@ public class PlayerController : MonoBehaviour
         if (isCrouching) animator.SetLayerWeight(1, 1);
         else animator.SetLayerWeight(1, 0);
 
-        // Updates camera position
-        UpdateLookingPosition();
+        // Sets the falling bool
+        animator.SetBool("Falling", !isGrounded);
     }
 
     // Physics simulations on FixedUpdate
@@ -54,11 +70,26 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
     }
 
+    // Camera movement
+    void LateUpdate()
+    {
+        // Updates camera position
+        UpdateLookingPosition();
+    }
+
     // Move camera
     private void UpdateLookingPosition()
     {
-        // Calculate how much to rotate
+        // Rotate Left/Right, any camera
         transform.Rotate(sensibility * cameraMovement.x * Time.deltaTime * Vector3.up);
+
+        // Rotate Up/Down, only third person camera
+        if (thirdPersonCamera.gameObject.activeSelf)
+        {
+            // if (thirdPersonCamera.transform.rotation.y + sensibility * cameraMovement.y * Time.deltaTime > maxVerticalAngles[0] && cameraMovement.y > 0)
+            //    thirdPersonCamera.transform.rotation.y = maxVerticalAngles[0];
+            thirdPersonCamera.transform.Rotate(sensibility * cameraMovement.y * Time.deltaTime * -Vector3.right);
+        }
     }
 
     // Moves the player
@@ -67,6 +98,8 @@ public class PlayerController : MonoBehaviour
         transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
+
+    // public bool IsGrounded() { return Physics.Raycast(transform.position, -Vector3.up, col.bounds.extents.y + 0.1f); }
 
     // Get the player's camera input
     private void OnLook(InputValue ctx) { cameraMovement = ctx.Get<Vector2>(); }
@@ -83,20 +116,20 @@ public class PlayerController : MonoBehaviour
     // Dance
     private void OnDance()
     {
-        if (animator.GetBool("Jump")) return;
         animator.SetBool("Dance", !animator.GetBool("Dance"));
     }
 
     // Backflip
     private void OnBackflip()
     {
-        if (animator.GetBool("Jump")) return;
         animator.SetBool("Backflip", !animator.GetBool("Backflip"));
     }
 
     // Jump
     private void OnJump()
     {
+        if (!isGrounded) return;
+
         // Uncrouch
         ToggleCrouch(false);
 
@@ -106,13 +139,37 @@ public class PlayerController : MonoBehaviour
         // Disable other animations if playing
         animator.SetBool("Dance", false);
         animator.SetBool("Backflip", false);
-    }
 
+        // Apply rigidbody speed
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
 
     // Toggles animator and crouching variable
     private void ToggleCrouch(bool toggle)
     {
         animator.SetBool("Crouching", toggle);
         isCrouching = toggle;
+    }
+    
+    // Change working cameras
+    private void OnCameraChange()
+    {
+        // Swap cameras
+        thirdPersonCamera.gameObject.SetActive(!thirdPersonCamera.gameObject.activeSelf);
+        firstPersonCamera.gameObject.SetActive(!firstPersonCamera.gameObject.activeSelf);
+        
+        // Change reticule render camera
+        if (thirdPersonCamera.gameObject.activeSelf) playerReticule.worldCamera = thirdPersonCamera;
+        else playerReticule.worldCamera = firstPersonCamera;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        isGrounded = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        isGrounded = false;
     }
 }
