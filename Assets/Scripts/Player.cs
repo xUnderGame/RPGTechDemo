@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float sensibility = 18f;
-    public float baseSpeed = 0.2f;
+    public float baseSpeed = 0.1f;
     public float cameraFov = 60f;
     public float walkingVelocityCap = 4f;
     public float fallingVelocityCap = 5f;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Camera thirdPersonCamera;
     private Camera firstPersonCamera;
     private Canvas playerReticule;
-    private readonly List<float> maxVerticalAngles = new() {1f, 2f};
+    private readonly List<float> maxVerticalAngles = new() {-0.70f, -0.60f};
 
     // Setting player stuff up
     void Awake()
@@ -86,8 +86,10 @@ public class PlayerController : MonoBehaviour
         // Rotate Up/Down, only third person camera
         if (thirdPersonCamera.gameObject.activeSelf)
         {
-            // if (thirdPersonCamera.transform.rotation.y + sensibility * cameraMovement.y * Time.deltaTime > maxVerticalAngles[0] && cameraMovement.y > 0)
-            //    thirdPersonCamera.transform.rotation.y = maxVerticalAngles[0];
+            // Debug.Log($"{cameraMovement.y}, {thirdPersonCamera.transform.rotation.y}, {maxVerticalAngles[0]}, {maxVerticalAngles[1]}");
+            // if (cameraMovement.y > 0 && thirdPersonCamera.transform.rotation.y <= maxVerticalAngles[0]) cameraMovement.y = 0;
+            // if (cameraMovement.y < 0 && thirdPersonCamera.transform.rotation.y >= maxVerticalAngles[1]) cameraMovement.y = 0;
+            
             thirdPersonCamera.transform.Rotate(sensibility * cameraMovement.y * Time.deltaTime * -Vector3.right);
         }
     }
