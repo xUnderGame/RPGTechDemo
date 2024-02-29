@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private Camera thirdPersonCamera;
     private Camera firstPersonCamera;
     private Canvas playerReticule;
-    private readonly List<float> maxVerticalAngles = new() {-0.70f, -0.60f};
+    private float yTurn = 0f;
 
     // Setting player stuff up
     void Awake()
@@ -86,11 +87,15 @@ public class PlayerController : MonoBehaviour
         // Rotate Up/Down, only third person camera
         if (thirdPersonCamera.gameObject.activeSelf)
         {
-            // Debug.Log($"{cameraMovement.y}, {thirdPersonCamera.transform.rotation.y}, {maxVerticalAngles[0]}, {maxVerticalAngles[1]}");
-            // if (cameraMovement.y > 0 && thirdPersonCamera.transform.rotation.y <= maxVerticalAngles[0]) cameraMovement.y = 0;
-            // if (cameraMovement.y < 0 && thirdPersonCamera.transform.rotation.y >= maxVerticalAngles[1]) cameraMovement.y = 0;
-            
-            thirdPersonCamera.transform.Rotate(sensibility * cameraMovement.y * Time.deltaTime * -Vector3.right);
+            // Calculate camera Y
+            yTurn += cameraMovement.y * sensibility * Time.deltaTime;
+
+            // Limit camera Y axis
+            if (yTurn > 20f) yTurn = 20f;
+            else if (yTurn < -40f) yTurn = -40f;
+
+            // Move it
+            thirdPersonCamera.transform.localRotation = Quaternion.Euler(-yTurn, 0, 0);
         }
     }
 
@@ -100,8 +105,6 @@ public class PlayerController : MonoBehaviour
         transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
-
-    // public bool IsGrounded() { return Physics.Raycast(transform.position, -Vector3.up, col.bounds.extents.y + 0.1f); }
 
     // Get the player's camera input
     private void OnLook(InputValue ctx) { cameraMovement = ctx.Get<Vector2>(); }
