@@ -168,13 +168,12 @@ public class PlayerController : MonoBehaviour
         else playerReticule.worldCamera = firstPersonCamera;
     }
 
+    // Grounded checks (stupid)
     private void OnTriggerEnter(Collider other)
     {
-        isGrounded = true;
+        if (other.TryGetComponent(out IInteractable interactable)) interactable.Interact();
+        else isGrounded = true; // If not an interactable, then its just ground ig
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        isGrounded = false;
-    }
+    private void OnTriggerExit(Collider other) { isGrounded = false; }
 }
