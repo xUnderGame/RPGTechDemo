@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
     // Jump
     private void OnJump()
     {
-        if (!isGrounded) return;
+        if (!isGrounded || rb.velocity.y > 0) return;
 
         // Uncrouch
         ToggleCrouch(false);
@@ -169,9 +169,9 @@ public class PlayerController : MonoBehaviour
     // Grounded checks (stupid)
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out IInteractable interactable)) interactable.Interact();
+        if (other.TryGetComponent(out IInteractable interactable)) interactable.Interact(gameObject);
         else isGrounded = true; // If not an interactable, then its just ground ig
     }
 
-    private void OnTriggerExit(Collider other) { isGrounded = false; }
+    private void OnTriggerExit(Collider other) { if (!other.TryGetComponent(out IInteractable _)) isGrounded = false; }
 }

@@ -1,9 +1,8 @@
-using System.Linq;
 using UnityEngine;
 
-public class Coin : MonoBehaviour, IInteractable
+public class Collectible : MonoBehaviour, IInteractable
 {
-    public void Interact()
+    public void Interact(GameObject source)
     {
         SaveManager.Instance.AddCollectible(gameObject.name);
         Destroy(gameObject);

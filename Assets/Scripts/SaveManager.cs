@@ -28,19 +28,23 @@ public class SaveManager : MonoBehaviour
         saveData = JsonUtility.FromJson<UserData>(File.ReadAllText(jsonpath));
     }
 
-    // Saves before disabling
-    void OnDisable()
+    // Saves the user data with new values
+    public void SaveDataJSON(UserData save, bool saveTransform = false)
     {
-        if (saveData != default)
+        // (Optionally) Sets player transform
+        if (saveTransform)
         {
-            saveData.latestPlayerPosition = GameObject.Find("Player").transform.position;
-            SaveDataJSON(saveData);
+            Transform playerTF = GameObject.Find("Player").transform.Find("Knight D Pelegrini");
+            saveData.latestPlayerPosition = playerTF.position;
+            saveData.latestPlayerRotation = playerTF.rotation;
         }
+
+        // Saves to persistentdatapath
+        save ??= saveData;
+        File.WriteAllText(jsonpath, JsonUtility.ToJson(save, true));
     }
 
-    // Saves the user data with new values
-    public void SaveDataJSON(UserData save) { File.WriteAllText(jsonpath, JsonUtility.ToJson(save, true)); }
-
+    // Adds a collectible to the private savedata list
     public void AddCollectible(string collectibleName)
     {
         saveData.collectibles = saveData.collectibles.Append(collectibleName).ToArray();
@@ -53,6 +57,7 @@ public class UserData
 {
     public string[] collectibles;
     public Vector3 latestPlayerPosition;
+    public Quaternion latestPlayerRotation;
     public EnemyAsData[] enemies;
 }
 
