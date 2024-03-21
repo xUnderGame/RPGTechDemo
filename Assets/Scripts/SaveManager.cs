@@ -1,13 +1,14 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
-    [HideInInspector] public UserData userData;
+
     private string jsonpath;
+    private UserData saveData;
 
     // Start is called before the first frame update
     void Start()
@@ -24,14 +25,26 @@ public class SaveManager : MonoBehaviour
         if (!File.Exists(jsonpath)) SaveDataJSON(new UserData());
 
         // Load the user's json file
-        userData = JsonUtility.FromJson<UserData>(File.ReadAllText(jsonpath));
+        saveData = JsonUtility.FromJson<UserData>(File.ReadAllText(jsonpath));
     }
 
     // Saves before disabling
-    void OnDisable() { SaveDataJSON(userData); }
+    void OnDisable()
+    {
+        if (saveData != default)
+        {
+            saveData.latestPlayerPosition = GameObject.Find("Player").transform.position;
+            SaveDataJSON(saveData);
+        }
+    }
 
     // Saves the user data with new values
-    public void SaveDataJSON(UserData save) { Debug.LogWarning("hi"); File.WriteAllText(jsonpath, JsonUtility.ToJson(save, true)); }
+    public void SaveDataJSON(UserData save) { File.WriteAllText(jsonpath, JsonUtility.ToJson(save, true)); }
+
+    public void AddCollectible(string collectibleName)
+    {
+        saveData.collectibles = saveData.collectibles.Append(collectibleName).ToArray();
+    }
 }
 
 // User data json serializable class

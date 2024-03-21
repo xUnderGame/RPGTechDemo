@@ -5,8 +5,7 @@ public class Coin : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        SaveManager.Instance.userData.collectibles.Append(gameObject.name);
-        Debug.Log(gameObject.name);
+        SaveManager.Instance.AddCollectible(gameObject.name);
         Destroy(gameObject);
     }
 }

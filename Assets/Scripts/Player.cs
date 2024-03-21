@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -91,7 +89,7 @@ public class PlayerController : MonoBehaviour
             yTurn += cameraMovement.y * sensibility * Time.deltaTime;
 
             // Limit camera Y axis
-            if (yTurn > 20f) yTurn = 20f;
+            if (yTurn > 10f) yTurn = 10f;
             else if (yTurn < -40f) yTurn = -40f;
 
             // Move it
