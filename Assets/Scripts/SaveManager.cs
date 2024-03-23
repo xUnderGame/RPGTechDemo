@@ -10,7 +10,6 @@ public class SaveManager : MonoBehaviour
     private string jsonpath;
     private UserData saveData;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Only one JsonManager on scene.

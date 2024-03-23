@@ -1,9 +1,9 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    public float sensibility = 18f;
+    public float sensitivity = 18f;
     public float baseSpeed = 0.1f;
     public float cameraFov = 60f;
     public float walkingVelocityCap = 4f;
@@ -80,13 +80,13 @@ public class PlayerController : MonoBehaviour
     private void UpdateLookingPosition()
     {
         // Rotate Left/Right, any camera
-        transform.Rotate(sensibility * cameraMovement.x * Time.deltaTime * Vector3.up);
+        transform.Rotate(sensitivity * cameraMovement.x * Time.deltaTime * Vector3.up);
 
         // Rotate Up/Down, only third person camera
         if (thirdPersonCamera.gameObject.activeSelf)
         {
             // Calculate camera Y
-            yTurn += cameraMovement.y * sensibility * Time.deltaTime;
+            yTurn += cameraMovement.y * sensitivity * Time.deltaTime;
 
             // Limit camera Y axis
             if (yTurn > 10f) yTurn = 10f;
@@ -147,13 +147,6 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    // Toggles animator and crouching variable
-    private void ToggleCrouch(bool toggle)
-    {
-        animator.SetBool("Crouching", toggle);
-        isCrouching = toggle;
-    }
-    
     // Change working cameras
     private void OnCameraChange()
     {
@@ -164,6 +157,29 @@ public class PlayerController : MonoBehaviour
         // Change reticule render camera
         if (thirdPersonCamera.gameObject.activeSelf) playerReticule.worldCamera = thirdPersonCamera;
         else playerReticule.worldCamera = firstPersonCamera;
+    }
+
+    // Toggles game pause
+    private void OnPause()
+    {
+        if (Time.timeScale == 0)
+        {
+            GameManager.Instance.pauseUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+        }
+        else {
+            GameManager.Instance.pauseUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
+        }
+    }
+
+    // Toggles animator and crouching variable
+    private void ToggleCrouch(bool toggle)
+    {
+        animator.SetBool("Crouching", toggle);
+        isCrouching = toggle;
     }
 
     // Grounded checks (stupid)
