@@ -25,6 +25,10 @@ public class SaveManager : MonoBehaviour
 
         // Load the user's json file
         saveData = JsonUtility.FromJson<UserData>(File.ReadAllText(jsonpath));
+
+        // Update player transform if savedata exists
+        if (saveData.latestPlayerPosition != Vector3.zero)
+        { GameManager.Instance.playerObject.transform.SetPositionAndRotation(saveData.latestPlayerPosition, saveData.latestPlayerRotation); }
     }
 
     // Saves the user data with new values
@@ -44,9 +48,12 @@ public class SaveManager : MonoBehaviour
     }
 
     // Adds a collectible to the private savedata list
-    public void AddCollectible(string collectibleName)
+    public bool AddCollectible(string collectibleName)
     {
+        if (saveData.collectibles.Contains(collectibleName)) return false;
+        
         saveData.collectibles = saveData.collectibles.Append(collectibleName).ToArray();
+        return true;
     }
 }
 

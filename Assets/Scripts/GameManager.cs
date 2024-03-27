@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainUI;
     public GameObject pauseUI;
 
-    void Start()
+    void Awake()
     {
         // Only one GameManager on scene.
         if (!Instance) Instance = this;

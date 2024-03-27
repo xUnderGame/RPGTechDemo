@@ -830,7 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b49b1671683914086c16a015201170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensibility: 18
+  sensitivity: 18
   baseSpeed: 0.1
   cameraFov: 90
   walkingVelocityCap: 4
