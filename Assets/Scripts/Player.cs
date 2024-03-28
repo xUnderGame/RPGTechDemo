@@ -1,5 +1,6 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -9,13 +10,14 @@ public class Player : MonoBehaviour
     public float walkingVelocityCap = 4f;
     public float fallingVelocityCap = 5f;
     public float jumpForce = 65f;
+    public bool canMove = true;
 
     private bool isRunning = false;
     private bool isCrouching = false;
     private bool isGrounded;
     private float currentSpeed = 0f;
-    private Animator animator;
     private Rigidbody rb;
+    private Animator animator;
     private Vector2 cameraMovement;
     private Vector2 playerMovement;
     private Camera thirdPersonCamera;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
         firstPersonCamera = transform.Find("Cameras").Find("First-Person View").GetComponent<Camera>();
         playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
         rb = GetComponent<Rigidbody>();
+        canMove = true;
 
         // Set game stuff up
         Cursor.lockState = CursorLockMode.Locked;
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // Walking and running animations.
-        if (playerMovement == Vector2.zero)
+        if (playerMovement == Vector2.zero || !canMove)
         {
             animator.SetBool("Walking", false);
             isRunning = false;
@@ -100,6 +103,7 @@ public class Player : MonoBehaviour
     // Moves the player
     private void MovePlayer()
     {
+        if (!canMove) return;
         transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
@@ -131,7 +135,7 @@ public class Player : MonoBehaviour
     // Jump
     private void OnJump()
     {
-        if (!isGrounded || rb.velocity.y > 0) return;
+        if (!isGrounded || rb.velocity.y > 0 || !canMove) return;
 
         // Uncrouch
         ToggleCrouch(false);
@@ -180,6 +184,18 @@ public class Player : MonoBehaviour
     {
         animator.SetBool("Crouching", toggle);
         isCrouching = toggle;
+    }
+
+    // Locks the player in an animation until it ends
+    public IEnumerator PickupBackflip()
+    {
+        animator.SetBool("Backflip", true);
+        canMove = false;
+
+        yield return new WaitForSeconds(1.75f);
+
+        animator.SetBool("Backflip", false);
+        canMove = true;
     }
 
     // Grounded checks (stupid)

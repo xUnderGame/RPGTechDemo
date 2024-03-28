@@ -5649,6 +5649,21 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2041675622698848141, guid: 1fd7387af6cdeb043903cdecae0e5464,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectible 1 UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2653673562955053217, guid: 1fd7387af6cdeb043903cdecae0e5464,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectible 2 UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386535576408443520, guid: 1fd7387af6cdeb043903cdecae0e5464,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectible 3 UI
+      objectReference: {fileID: 0}
     - target: {fileID: 7862426181151806435, guid: 1fd7387af6cdeb043903cdecae0e5464,
         type: 3}
       propertyPath: m_Name
@@ -5974,23 +5989,13 @@ PrefabInstance:
     - target: {fileID: 683765657567524161, guid: d82c08ab08099d54ba15daeb240b3d24,
         type: 3}
       propertyPath: m_Name
-      value: Collectible One
+      value: Collectible 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2968797266707501970, guid: d82c08ab08099d54ba15daeb240b3d24,
+    - target: {fileID: 2835701684001182649, guid: d82c08ab08099d54ba15daeb240b3d24,
         type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2968797266707501970, guid: d82c08ab08099d54ba15daeb240b3d24,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2968797266707501970, guid: d82c08ab08099d54ba15daeb240b3d24,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc6032065d6b5648a73fb4431517e5a, type: 2}
     - target: {fileID: 3067681994045112426, guid: d82c08ab08099d54ba15daeb240b3d24,
         type: 3}
       propertyPath: m_LocalPosition.x

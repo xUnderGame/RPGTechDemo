@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector] public Player player;
     public GameObject playerObject;
+    public GameObject knight;
     public GameObject mainUI;
     public GameObject pauseUI;
+    public GameObject collectiblesUI;
 
     void Awake()
     {
@@ -18,13 +20,31 @@ public class GameManager : MonoBehaviour
 
         // Main references
         playerObject = GameObject.Find("Player");
+        knight = playerObject.transform.Find("Knight D Pelegrini").gameObject;
         player = playerObject.GetComponent<Player>();
 
         // UI references
         mainUI = GameObject.Find("UI");
+        collectiblesUI = mainUI.transform.Find("Collectibles").gameObject;
         pauseUI = mainUI.transform.Find("Pause").gameObject;
 
         // Set default slider value
         pauseUI.transform.Find("Sensitivity Slider").GetComponent<Slider>().value = player.sensitivity;
+    }
+
+    public void AddCollectibleToPlayer(GameObject collectible)
+    {
+        if (!collectible) return;
+
+        collectible.GetComponent<Collider>().enabled = false;
+        collectible.GetComponent<Rigidbody>().isKinematic = true;
+        collectible.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        collectible.transform.SetParent(knight.transform);
+        // collectible.transform.position = Vector3.zero;
+        collectible.transform.position = knight.transform.position;
+
+        // Update UI
+        collectiblesUI.transform.Find($"{collectible.name} UI").GetComponent<RawImage>().color
+            = collectible.GetComponent<MeshRenderer>().material.color;
     }
 }

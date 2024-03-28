@@ -26,6 +26,9 @@ public class SaveManager : MonoBehaviour
         // Load the user's json file
         saveData = JsonUtility.FromJson<UserData>(File.ReadAllText(jsonpath));
 
+        // Destroy already collected collectibles
+        saveData.collectibles.ToList().ForEach(collectible => GameManager.Instance.AddCollectibleToPlayer(GameObject.Find(collectible)));
+
         // Update player transform if savedata exists
         if (saveData.latestPlayerPosition != Vector3.zero)
         { GameManager.Instance.playerObject.transform.SetPositionAndRotation(saveData.latestPlayerPosition, saveData.latestPlayerRotation); }
@@ -51,7 +54,7 @@ public class SaveManager : MonoBehaviour
     public bool AddCollectible(string collectibleName)
     {
         if (saveData.collectibles.Contains(collectibleName)) return false;
-        
+
         saveData.collectibles = saveData.collectibles.Append(collectibleName).ToArray();
         return true;
     }
