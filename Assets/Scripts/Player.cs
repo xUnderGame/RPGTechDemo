@@ -54,7 +54,8 @@ public class Player : MonoBehaviour
         else { animator.SetBool("Walking", true); }
 
         // Running checks and animations.
-        if (isRunning) currentSpeed = baseSpeed * 1.5f;
+        if (isCrouching) currentSpeed = baseSpeed * 0.5f;
+        else if (isRunning) currentSpeed = baseSpeed * 1.5f;
         else currentSpeed = baseSpeed;
         animator.SetBool("Running", isRunning);
 

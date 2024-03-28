@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainUI;
     public GameObject pauseUI;
     public GameObject collectiblesUI;
+    public Text savedTextUI;
 
     void Awake()
     {
@@ -27,19 +28,26 @@ public class GameManager : MonoBehaviour
         mainUI = GameObject.Find("UI");
         collectiblesUI = mainUI.transform.Find("Collectibles").gameObject;
         pauseUI = mainUI.transform.Find("Pause").gameObject;
+        savedTextUI = mainUI.transform.Find("Saved Text").GetComponent<Text>();
 
         // Set default slider value
         pauseUI.transform.Find("Sensitivity Slider").GetComponent<Slider>().value = player.sensitivity;
     }
 
+    // Adds collectible to player and enables it on the UI
     public void AddCollectibleToPlayer(GameObject collectible)
     {
         if (!collectible) return;
 
+        // Disables stupid stuff
         collectible.GetComponent<Collider>().enabled = false;
         collectible.GetComponent<Rigidbody>().isKinematic = true;
         collectible.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
 
+        // La idea era de que los colectibles rotaran alrededor del jugador,
+        // pero los quaternions han sido demasiado para mi.
+        // tambien podias utilizarlos para disparar o algo.
+        // al final no!
         Transform slot = knight.transform.Find("Pickups").Find($"{collectible.name} Slot");
         collectible.transform.SetParent(slot);
         collectible.transform.position = slot.position;
