@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour
         collectible.GetComponent<Collider>().enabled = false;
         collectible.GetComponent<Rigidbody>().isKinematic = true;
         collectible.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-        collectible.transform.SetParent(knight.transform);
-        // collectible.transform.position = Vector3.zero;
-        collectible.transform.position = knight.transform.position + new Vector3(0f, 1.25f, 0f);
+
+        Transform slot = knight.transform.Find("Pickups").Find($"{collectible.name} Slot");
+        collectible.transform.SetParent(slot);
+        collectible.transform.position = slot.position;
 
         // Update UI
         collectiblesUI.transform.Find($"{collectible.name} UI").GetComponent<RawImage>().color
