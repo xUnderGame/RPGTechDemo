@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         collectiblesUI = mainUI.transform.Find("Collectibles").gameObject;
         pauseUI = mainUI.transform.Find("Pause").gameObject;
         savedTextUI = mainUI.transform.Find("Saved Text").GetComponent<Text>();
+        savedTextUI.CrossFadeAlpha(0, 0, true);
 
         // Set default slider value
         pauseUI.transform.Find("Sensitivity Slider").GetComponent<Slider>().value = player.sensitivity;

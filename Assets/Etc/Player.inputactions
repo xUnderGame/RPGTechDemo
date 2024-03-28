@@ -60,15 +60,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Backflip",
-                    "type": "Button",
-                    "id": "6610d86d-b0bf-4b28-b875-e869503b8233",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Fire",
                     "type": "Button",
                     "id": "ccda5a7f-1114-40cc-bb7e-463513ad1493",
@@ -347,17 +338,6 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4d1c0e30-854d-4b45-897c-ab312c9d32e2",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Backflip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

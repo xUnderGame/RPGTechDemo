@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private bool isRunning = false;
     private bool isCrouching = false;
     private bool isGrounded;
+    private bool isDancing = false;
     private float currentSpeed = 0f;
     private Rigidbody rb;
     private Animator animator;
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
         playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
         rb = GetComponent<Rigidbody>();
         canMove = true;
+        isDancing = false;
 
         // Set game stuff up
         Cursor.lockState = CursorLockMode.Locked;
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // Walking and running animations.
-        if (playerMovement == Vector2.zero || !canMove)
+        if (playerMovement == Vector2.zero || !canMove || isDancing)
         {
             animator.SetBool("Walking", false);
             isRunning = false;
@@ -104,7 +106,7 @@ public class Player : MonoBehaviour
     // Moves the player
     private void MovePlayer()
     {
-        if (!canMove) return;
+        if (!canMove || isDancing) return;
         transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
@@ -124,19 +126,21 @@ public class Player : MonoBehaviour
     // Dance
     private void OnDance()
     {
-        animator.SetBool("Dance", !animator.GetBool("Dance"));
-    }
+        if (isDancing)
+        {
+            animator.SetBool("Dance", false);
+            isDancing = false;
+            return;
+        }
 
-    // Backflip
-    private void OnBackflip()
-    {
-        animator.SetBool("Backflip", !animator.GetBool("Backflip"));
+        animator.SetBool("Dance", true);
+        isDancing = true;
     }
 
     // Jump
     private void OnJump()
     {
-        if (!isGrounded || rb.velocity.y > 0 || !canMove) return;
+        if (!isGrounded || rb.velocity.y > 0 || !canMove || isDancing) return;
 
         // Uncrouch
         ToggleCrouch(false);
