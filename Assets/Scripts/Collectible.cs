@@ -9,6 +9,7 @@ public class Collectible : MonoBehaviour, IInteractable
         GameManager.Instance.player.StartCoroutine(GameManager.Instance.player.PickupBackflip());
 
         // Add to player and remove collider
+        GetComponent<AudioSource>().Play();
         GameManager.Instance.AddCollectibleToPlayer(gameObject);
     }
 }

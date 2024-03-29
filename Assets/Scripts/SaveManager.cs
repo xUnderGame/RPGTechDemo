@@ -30,9 +30,11 @@ public class SaveManager : MonoBehaviour
         saveData.collectibles.ToList().ForEach(collectible => GameManager.Instance.AddCollectibleToPlayer(GameObject.Find(collectible)));
 
         // Update player transform if savedata exists
-        if (saveData.latestPlayerPosition != Vector3.zero)
-        { GameManager.Instance.playerObject.transform.SetPositionAndRotation(saveData.latestPlayerPosition, saveData.latestPlayerRotation); }
+        if (saveData.latestPlayerPosition != Vector3.zero) RespawnPlayer();
     }
+
+    // Respawns the player onto the latest save location
+    public void RespawnPlayer() { GameManager.Instance.playerObject.transform.SetPositionAndRotation(saveData.latestPlayerPosition, saveData.latestPlayerRotation); }
 
     // Saves the user data with new values
     public void SaveDataJSON(UserData save, bool saveTransform = false)

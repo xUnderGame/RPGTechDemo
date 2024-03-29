@@ -16,8 +16,11 @@ public class Player : MonoBehaviour
     private bool isCrouching = false;
     private bool isGrounded = true;
     private bool isDancing = false;
+    private bool isDead = false;
+    private bool isCameraLocked = false;
     private bool latestCameraActive = true;
     private float currentSpeed = 0f;
+    private float yTurn = 0f;
     private Rigidbody rb;
     private Animator animator;
     private Vector2 cameraMovement;
@@ -26,17 +29,18 @@ public class Player : MonoBehaviour
     private Camera firstPersonCamera;
     private Camera frontCamera;
     private Canvas playerReticule;
-    private float yTurn = 0f;
+    private AudioSource jumpSFX;
 
     // Setting player stuff up
     void Awake()
     {
-        // Get components
+        // Get components & default setup
         animator = transform.GetChild(0).GetComponent<Animator>();
         thirdPersonCamera = transform.Find("Cameras").Find("Third-Person View").GetComponent<Camera>();
         firstPersonCamera = transform.Find("Cameras").Find("First-Person View").GetComponent<Camera>();
         frontCamera = transform.Find("Cameras").Find("Front View").GetComponent<Camera>();
         playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
+        jumpSFX = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         canMove = true;
         isDancing = false;
@@ -89,6 +93,8 @@ public class Player : MonoBehaviour
     // Move camera
     private void UpdateLookingPosition()
     {
+        if (isDancing || isDead) return;
+
         // Rotate Left/Right, any camera
         transform.Rotate(sensitivity * cameraMovement.x * Time.deltaTime * Vector3.up);
 
@@ -110,7 +116,7 @@ public class Player : MonoBehaviour
     // Moves the player
     private void MovePlayer()
     {
-        if (!canMove || isDancing) return;
+        if (!canMove || isDancing | isDead) return;
         transform.Translate(playerMovement.y * currentSpeed * Vector3.forward);
         transform.Translate(playerMovement.x * currentSpeed * Vector3.right);
     }
@@ -130,28 +136,19 @@ public class Player : MonoBehaviour
     // Dance
     private void OnDance()
     {
+        if (!canMove || !isGrounded || isDead) return;
+
+        // Stop dancing
         if (isDancing)
         {
-            // Enable camera
-            frontCamera.gameObject.SetActive(false);
-            if (latestCameraActive) firstPersonCamera.gameObject.SetActive(true);
-            else thirdPersonCamera.gameObject.SetActive(true);
-
-            // Stop animation
+            ToggleFrontCamera(false);
             animator.SetBool("Dance", false);
             isDancing = false;
             return;
         }
 
-        // Disable other cameras
-        if (firstPersonCamera.gameObject.activeSelf) latestCameraActive = true;
-        else latestCameraActive = false;
-
-        firstPersonCamera.gameObject.SetActive(false);
-        thirdPersonCamera.gameObject.SetActive(false);
-        frontCamera.gameObject.SetActive(true);
-
-        // Do animation
+        // Start dancing
+        ToggleFrontCamera(true);
         animator.SetBool("Dance", true);
         isDancing = true;
     }
@@ -159,12 +156,13 @@ public class Player : MonoBehaviour
     // Jump
     private void OnJump()
     {
-        if (!isGrounded || rb.velocity.y > 0 || !canMove || isDancing) return;
+        if (!isGrounded || rb.velocity.y > 0 || !canMove || isDancing  || isDead) return;
 
         // Uncrouch
         ToggleCrouch(false);
 
         // Start the jump
+        jumpSFX.PlayOneShot(jumpSFX.clip);
         animator.Play("Jump Start");
         
         // Disable other animations if playing
@@ -178,7 +176,7 @@ public class Player : MonoBehaviour
     // Change working cameras
     private void OnCameraChange()
     {
-        if (isDancing) return;
+        if (isDancing || isCameraLocked) return;
 
         // Swap cameras
         thirdPersonCamera.gameObject.SetActive(!thirdPersonCamera.gameObject.activeSelf);
@@ -196,11 +194,13 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.pauseUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
+            GameManager.Instance.BGM.UnPause();
             Time.timeScale = 1;
         }
         else {
             GameManager.Instance.pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            GameManager.Instance.BGM.Pause();
             Time.timeScale = 0;
         }
     }
@@ -208,6 +208,8 @@ public class Player : MonoBehaviour
     // Toggles animator and crouching variable
     private void ToggleCrouch(bool toggle)
     {
+        if (!canMove || isDancing || isDead) return;
+
         animator.SetBool("Crouching", toggle);
         isCrouching = toggle;
     }
@@ -218,18 +220,52 @@ public class Player : MonoBehaviour
         animator.SetBool("Backflip", true);
         canMove = false;
 
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(2f); // Would be better to wait for the animation to finish but i dont care
 
         animator.SetBool("Backflip", false);
         canMove = true;
     }
 
-    // Grounded checks (stupid)
-    private void OnTriggerEnter(Collider other)
+    // Kills the player
+    public IEnumerator Kill()
     {
-        if (other.TryGetComponent(out IInteractable interactable)) interactable.Interact(gameObject);
-        else isGrounded = true; // If not an interactable, then its just ground ig
+        animator.Play("Dying");
+        ToggleFrontCamera(true);
+        isCameraLocked = true;
+        isDead = true;
+
+        yield return new WaitForSeconds(3.25f);
+
+        isDead = false;
+        isCameraLocked = false;
+        ToggleFrontCamera(false);
+        SaveManager.Instance.RespawnPlayer();
     }
 
-    private void OnTriggerExit(Collider other) { if (!other.TryGetComponent(out IInteractable _)) isGrounded = false; }
+    private void ToggleFrontCamera(bool toggle)
+    {
+        // Disable camera
+        if (!toggle)
+        {
+            frontCamera.gameObject.SetActive(false);
+            if (latestCameraActive) firstPersonCamera.gameObject.SetActive(true);
+            else thirdPersonCamera.gameObject.SetActive(true);
+            return;
+        } 
+        
+        // Enable camera
+        if (firstPersonCamera.gameObject.activeSelf) latestCameraActive = true;
+        else latestCameraActive = false;
+
+        firstPersonCamera.gameObject.SetActive(false);
+        thirdPersonCamera.gameObject.SetActive(false);
+        frontCamera.gameObject.SetActive(true);
+    }
+
+    // Interact with interactables
+    private void OnTriggerEnter(Collider other) { if (other.TryGetComponent(out IInteractable interactable)) interactable.Interact(gameObject); }
+
+    // Grounded checks (stupid)
+    private void OnTriggerStay(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = true; }
+    private void OnTriggerExit(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = false; }
 }

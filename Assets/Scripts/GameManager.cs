@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseUI;
     public GameObject collectiblesUI;
     public Text savedTextUI;
+    public AudioSource BGM;
 
     void Awake()
     {
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         playerObject = GameObject.Find("Player");
         knight = playerObject.transform.Find("Knight D Pelegrini").gameObject;
         player = playerObject.GetComponent<Player>();
+        BGM = GetComponent<AudioSource>();
 
         // UI references
         mainUI = GameObject.Find("UI");
