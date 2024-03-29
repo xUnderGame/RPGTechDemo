@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
 
     private bool isRunning = false;
     private bool isCrouching = false;
-    private bool isGrounded;
+    private bool isGrounded = true;
     private bool isDancing = false;
+    private bool latestCameraActive = true;
     private float currentSpeed = 0f;
     private Rigidbody rb;
     private Animator animator;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     private Vector2 playerMovement;
     private Camera thirdPersonCamera;
     private Camera firstPersonCamera;
+    private Camera frontCamera;
     private Canvas playerReticule;
     private float yTurn = 0f;
 
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         animator = transform.GetChild(0).GetComponent<Animator>();
         thirdPersonCamera = transform.Find("Cameras").Find("Third-Person View").GetComponent<Camera>();
         firstPersonCamera = transform.Find("Cameras").Find("First-Person View").GetComponent<Camera>();
+        frontCamera = transform.Find("Cameras").Find("Front View").GetComponent<Camera>();
         playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
         rb = GetComponent<Rigidbody>();
         canMove = true;
@@ -42,6 +45,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         thirdPersonCamera.fieldOfView = cameraFov;
         firstPersonCamera.fieldOfView = cameraFov;
+        frontCamera.fieldOfView = cameraFov;
     }
 
     // Update is called once per frame
@@ -128,11 +132,26 @@ public class Player : MonoBehaviour
     {
         if (isDancing)
         {
+            // Enable camera
+            frontCamera.gameObject.SetActive(false);
+            if (latestCameraActive) firstPersonCamera.gameObject.SetActive(true);
+            else thirdPersonCamera.gameObject.SetActive(true);
+
+            // Stop animation
             animator.SetBool("Dance", false);
             isDancing = false;
             return;
         }
 
+        // Disable other cameras
+        if (firstPersonCamera.gameObject.activeSelf) latestCameraActive = true;
+        else latestCameraActive = false;
+
+        firstPersonCamera.gameObject.SetActive(false);
+        thirdPersonCamera.gameObject.SetActive(false);
+        frontCamera.gameObject.SetActive(true);
+
+        // Do animation
         animator.SetBool("Dance", true);
         isDancing = true;
     }
@@ -159,6 +178,8 @@ public class Player : MonoBehaviour
     // Change working cameras
     private void OnCameraChange()
     {
+        if (isDancing) return;
+
         // Swap cameras
         thirdPersonCamera.gameObject.SetActive(!thirdPersonCamera.gameObject.activeSelf);
         firstPersonCamera.gameObject.SetActive(!firstPersonCamera.gameObject.activeSelf);
