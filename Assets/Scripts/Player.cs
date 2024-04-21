@@ -2,7 +2,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public float sensitivity = 18f;
     public float baseSpeed = 0.1f;
