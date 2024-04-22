@@ -53,6 +53,8 @@ public class Player : Character
         thirdPersonCamera.fieldOfView = cameraFov;
         firstPersonCamera.fieldOfView = cameraFov;
         frontCamera.fieldOfView = cameraFov;
+
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -251,6 +253,7 @@ public class Player : Character
     public IEnumerator Kill()
     {
         animator.Play("Dying");
+        GameManager.Instance.gameoverUI.SetActive(true);
         ToggleFrontCamera(true);
         isCameraLocked = true;
         isDead = true;
@@ -260,7 +263,9 @@ public class Player : Character
         isDead = false;
         isCameraLocked = false;
         ToggleFrontCamera(false);
+        GameManager.Instance.gameoverUI.SetActive(false);
         SaveManager.Instance.RespawnPlayer();
+        currentHP = 100;
     }
 
     private void ToggleFrontCamera(bool toggle)
@@ -294,5 +299,9 @@ public class Player : Character
     // Attack stuff
     public override void Attack() { }
 
-    public override void Hurt(int damage, GameObject damageSource) { }
+    public override void Hurt(int damage, GameObject damageSource) 
+    {
+        currentHP -= damage;
+        if (currentHP <= 0) StartCoroutine(Kill());
+    }
 }

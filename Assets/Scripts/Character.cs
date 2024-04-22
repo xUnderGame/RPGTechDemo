@@ -6,7 +6,7 @@ public abstract class Character : MonoBehaviour, IHurtable
     public int maxHP;
     public int currentHP;
 
-    private void Awake()
+    public void Awake()
     {
         //healthbar = transform.Find("Healthbar").gameObject;
         maxHP = 100;
