@@ -52,6 +52,7 @@ MonoBehaviour:
   pauseUI: {fileID: 0}
   collectiblesUI: {fileID: 0}
   savedTextUI: {fileID: 0}
+  BGM: {fileID: 0}
 --- !u!82 &4478781391644089845
 AudioSource:
   m_ObjectHideFlags: 0

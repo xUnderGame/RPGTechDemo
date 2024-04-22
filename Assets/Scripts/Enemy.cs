@@ -13,6 +13,6 @@ public class Enemy : Character
     {
         if (!GameManager.Instance) return;
 
-        agent.SetDestination(GameManager.Instance.playerObject.transform.position);
+        // agent.SetDestination(GameManager.Instance.playerObject.transform.position);
     }
 }
