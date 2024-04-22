@@ -128,7 +128,8 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"detectionArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
       UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"attackArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
-      UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+      UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"selfRenderer","value":null,"typeHandle":{"Identification":"UnityEngine.MeshRenderer,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
 --- !u!114 &399269708184223735
 MonoBehaviour:
@@ -192,7 +193,7 @@ GameObject:
   - component: {fileID: 1734143781592711810}
   m_Layer: 0
   m_Name: Attack Area
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,7 +232,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 1.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2831025705978861728
 GameObject:
@@ -245,7 +246,7 @@ GameObject:
   - component: {fileID: 6027846111112127465}
   m_Layer: 0
   m_Name: Detection Range
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

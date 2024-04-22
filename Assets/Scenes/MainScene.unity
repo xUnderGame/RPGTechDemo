@@ -1011,6 +1011,87 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8475488957235541121}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1598602832
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 204859139993371155, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375575078408163160, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553089905166106417, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: _data._json
+      value: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"detectionArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
+        UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"attackArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
+        UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"selfRenderer","value":null,"typeHandle":{"Identification":"UnityEngine.MeshRenderer,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553089905166106417, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: _data._objectReferences.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 096cd487780754949838f038dcb21366, type: 3}
 --- !u!1 &1735850500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1741,9 +1822,15 @@ PrefabInstance:
     - target: {fileID: 7553089905166106417, guid: 096cd487780754949838f038dcb21366,
         type: 3}
       propertyPath: _data._json
-      value: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"detectionArea","value":{"$content":0,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"UnityEngine.SphereCollider,
+      value: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"detectionArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
         UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"attackArea","value":null,"typeHandle":{"Identification":"UnityEngine.SphereCollider,
-        UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+        UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"selfRenderer","value":null,"typeHandle":{"Identification":"UnityEngine.MeshRenderer,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553089905166106417, guid: 096cd487780754949838f038dcb21366,
+        type: 3}
+      propertyPath: _data._objectReferences.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1916,3 +2003,4 @@ SceneRoots:
   - {fileID: 400233958}
   - {fileID: 4497144373031147024}
   - {fileID: 5252068817320018415}
+  - {fileID: 1598602832}
