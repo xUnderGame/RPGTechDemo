@@ -8,4 +8,12 @@ public class UIActions : MonoBehaviour
 
         GameManager.Instance.player.sensitivity = value;
     }
+
+    public void CallRespawn()
+    {
+        if (!SaveManager.Instance || !GameManager.Instance) return;
+
+        SaveManager.Instance.RespawnPlayer();
+        GameManager.Instance.gameoverUI.SetActive(false);
+    }
 }

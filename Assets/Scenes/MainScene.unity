@@ -1349,6 +1349,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Collectible 1 UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2369337165668030856, guid: 1fd7387af6cdeb043903cdecae0e5464,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2653673562955053217, guid: 1fd7387af6cdeb043903cdecae0e5464,
         type: 3}
       propertyPath: m_Name
@@ -1363,6 +1368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8149275678076269819, guid: 1fd7387af6cdeb043903cdecae0e5464,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8285002431569376527, guid: 1fd7387af6cdeb043903cdecae0e5464,
         type: 3}

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject knight;
     public GameObject mainUI;
     public GameObject pauseUI;
+    public GameObject gameoverUI;
     public GameObject collectiblesUI;
     public Text savedTextUI;
     public AudioSource BGM;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         mainUI = GameObject.Find("UI");
         collectiblesUI = mainUI.transform.Find("Collectibles").gameObject;
         pauseUI = mainUI.transform.Find("Pause").gameObject;
+        gameoverUI = mainUI.transform.Find("Game Over").gameObject;
         savedTextUI = mainUI.transform.Find("Saved Text").GetComponent<Text>();
         savedTextUI.CrossFadeAlpha(0, 0, true);
 

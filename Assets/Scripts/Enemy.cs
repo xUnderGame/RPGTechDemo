@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class Enemy : Character
 {
     private NavMeshAgent agent;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -15,4 +16,6 @@ public class Enemy : Character
 
         // agent.SetDestination(GameManager.Instance.playerObject.transform.position);
     }
+
+    public override void Hurt(int damage, GameObject damageSource) { }
 }

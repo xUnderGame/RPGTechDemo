@@ -268,4 +268,6 @@ public class Player : Character
     // Grounded checks (stupid)
     private void OnTriggerStay(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = true; }
     private void OnTriggerExit(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = false; }
+
+    public override void Hurt(int damage, GameObject damageSource) { }
 }
