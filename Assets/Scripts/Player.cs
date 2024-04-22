@@ -30,6 +30,8 @@ public class Player : Character
     private Camera frontCamera;
     private Canvas playerReticule;
     private AudioSource jumpSFX;
+    private GameObject attackArea;
+    private Coroutine attackCoro = null;
 
     // Setting player stuff up
     void Awake()
@@ -40,6 +42,7 @@ public class Player : Character
         firstPersonCamera = transform.Find("Cameras").Find("First-Person View").GetComponent<Camera>();
         frontCamera = transform.Find("Cameras").Find("Front View").GetComponent<Camera>();
         playerReticule = transform.Find("Reticule").GetComponent<Canvas>();
+        attackArea = transform.Find("Attack Area").gameObject;
         jumpSFX = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         canMove = true;
@@ -205,6 +208,24 @@ public class Player : Character
         }
     }
 
+    // Attack
+    private void OnAttack()
+    {
+        if (attackCoro != null || isDead || isDancing) return;
+
+        attackCoro = StartCoroutine(MagicAttack());
+    }
+
+    // Attack coroutine
+    private IEnumerator MagicAttack()
+    {
+        attackArea.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        attackArea.SetActive(false);
+        yield return new WaitForSeconds(0.15f);
+        attackCoro = null;
+    }
+
     // Toggles animator and crouching variable
     private void ToggleCrouch(bool toggle)
     {
@@ -268,6 +289,10 @@ public class Player : Character
     // Grounded checks (stupid)
     private void OnTriggerStay(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = true; }
     private void OnTriggerExit(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = false; }
+
+
+    // Attack stuff
+    public override void Attack() { }
 
     public override void Hurt(int damage, GameObject damageSource) { }
 }

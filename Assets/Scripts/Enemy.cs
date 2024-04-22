@@ -1,21 +1,12 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Enemy : Character
 {
-    private NavMeshAgent agent;
+    public override void Attack() { }
 
-    private void Start()
+    public override void Hurt(int damage, GameObject damageSource)
     {
-        agent = GetComponent<NavMeshAgent>();
+        currentHP -= damage;
+        if (currentHP <= 0) Destroy(gameObject);
     }
-    
-    private void Update()
-    {
-        if (!GameManager.Instance) return;
-
-        // agent.SetDestination(GameManager.Instance.playerObject.transform.position);
-    }
-
-    public override void Hurt(int damage, GameObject damageSource) { }
 }

@@ -2,5 +2,5 @@
 
 public interface IHurtable
 {
-    public void Hurt(int damage, GameObject damageSource);
+    public abstract void Hurt(int damage, GameObject damageSource);
 }
