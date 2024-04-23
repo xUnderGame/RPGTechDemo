@@ -34,8 +34,10 @@ public class Player : Character
     private Coroutine attackCoro = null;
 
     // Setting player stuff up
-    void Awake()
+    new void Awake()
     {
+        base.Awake();
+
         // Get components & default setup
         animator = transform.GetChild(0).GetComponent<Animator>();
         thirdPersonCamera = transform.Find("Cameras").Find("Third-Person View").GetComponent<Camera>();
@@ -53,8 +55,6 @@ public class Player : Character
         thirdPersonCamera.fieldOfView = cameraFov;
         firstPersonCamera.fieldOfView = cameraFov;
         frontCamera.fieldOfView = cameraFov;
-
-        base.Awake();
     }
 
     // Update is called once per frame
@@ -264,6 +264,7 @@ public class Player : Character
         isCameraLocked = false;
         ToggleFrontCamera(false);
         GameManager.Instance.gameoverUI.SetActive(false);
+        GameManager.Instance.hpUI.fillAmount = 1f;
         SaveManager.Instance.RespawnPlayer();
         currentHP = 100;
     }
@@ -295,13 +296,12 @@ public class Player : Character
     private void OnTriggerStay(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = true; }
     private void OnTriggerExit(Collider other) { if (!other.CompareTag("Interactable")) isGrounded = false; }
 
-
-    // Attack stuff
-    public override void Attack() { }
-
     public override void Hurt(int damage, GameObject damageSource) 
     {
+        if (isDead) return;
+
         currentHP -= damage;
+        GameManager.Instance.hpUI.fillAmount = (float)(currentHP / (float)maxHP);
         if (currentHP <= 0) StartCoroutine(Kill());
     }
 }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseUI;
     public GameObject gameoverUI;
     public GameObject collectiblesUI;
+    public Image hpUI;
     public Text savedTextUI;
     public AudioSource BGM;
 
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         pauseUI = mainUI.transform.Find("Pause").gameObject;
         gameoverUI = mainUI.transform.Find("Game Over").gameObject;
         savedTextUI = mainUI.transform.Find("Saved Text").GetComponent<Text>();
+        hpUI = mainUI.transform.Find("HP Bar").GetComponent<Image>();
         savedTextUI.CrossFadeAlpha(0, 0, true);
 
         // Set default slider value
